@@ -1,0 +1,12 @@
+
+https://petewarden.com/2016/05/03/how-to-quantize-neural-networks-with-tensorflow/
+
+>> cdtens
+>> bazel build tensorflow/tools/quantization/...
+
+>> cdtens
+>> bazel-bin/tensorflow/tools/quantization/quantize_graph \
+   --input=[PATH TO ORIGINAL GRAPH .PB FILE] \
+   --output_node_names="softmax" \
+   --output=[PATH TO NEW QUANTIZED GRAPH .PB FILE] \
+   --mode=eightbit

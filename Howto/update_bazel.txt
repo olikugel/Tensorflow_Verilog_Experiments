@@ -1,0 +1,5 @@
+# update apt-get
+>> sudo apt-get update
+
+# update bazel
+>> sudo apt-get upgrade bazel

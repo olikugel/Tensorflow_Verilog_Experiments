@@ -1,0 +1,5 @@
+GRAPH_FILE_ORI=/Users/oliverkugel/Git/Uniproject/Graphs/tensorflow_inception_graph.pb
+GRAPH_FILE_QUA=/Users/oliverkugel/Git/Uniproject/Graphs/quantized_graph.pb
+GRAPH_FILE_RED=/Users/oliverkugel/Git/Uniproject/Graphs/reduced_graph.pb
+GRAPH_FILE_RTQ=/Users/oliverkugel/Git/Uniproject/Graphs/reduced_then_quantized_graph.pb
+GRAPH_FILE_QTR=/Users/oliverkugel/Git/Uniproject/Graphs/quantized_then_reduced_graph.pb

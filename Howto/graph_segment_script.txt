@@ -1,0 +1,27 @@
+# ------------------------------------------------------------------------------
+
+# compile the script, set graph path
+>> cdtens
+>> bazel build tensorflow/examples/graph_segment/...
+>> GRAPH_FILE=[PATH TO GRAPH FILE]
+
+# ------------------------------------------------------------------------------
+
+# run the script
+bazel-bin/tensorflow/examples/graph_segment/run_graph_parts
+bazel-bin/tensorflow/examples/graph_segment/run_full_graph
+
+# or run the script with arguments
+>> bazel-bin/tensorflow/examples/graph_segment/tedLabel_image \
+   --graph=$GRAPH_FILE --from_node=DecodeJpeg/contents --to_node=Mul
+
+# ------------------------------------------------------------------------------
+
+# run the analyzer
+>> bazel-bin/tensorflow/examples/graph_segment/analyzer $GRAPH_FILE
+# ... and print just the nodes
+>> bazel-bin/tensorflow/examples/graph_segment/analyzer $GRAPH_FILE | grep 'Node:'
+# ... and print just the stats
+>> bazel-bin/tensorflow/examples/graph_segment/analyzer $GRAPH_FILE | grep -v 'Node:' | grep -v 'Found datatype'
+
+# ------------------------------------------------------------------------------

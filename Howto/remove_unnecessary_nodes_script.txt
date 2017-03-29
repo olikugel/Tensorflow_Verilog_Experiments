@@ -1,0 +1,50 @@
+
+>> cdtens
+>> bazel build tensorflow/python/tools/...
+
+>> cdtens
+>> bazel-bin/tensorflow/python/tools/optimize_for_inference \
+   --input=[PATH TO INPUT GRAPH .PB FILE] \
+   --output=[PATH TO OUTPUT GRAPH .PB FILE] \
+   --input_names=Mul \
+   --output_names=softmax
+
+
+
+
+
+
+bazel build tensorflow/python/tools:optimize_for_inference
+
+bazel-bin/tensorflow/python/tools/optimize_for_inference \
+--input=frozen_inception_graph.pb \
+--output=optimized_inception_graph.pb \
+--frozen_graph=True \
+--input_names=Mul \
+--output_names=softmax
+
+
+Removes parts of a graph that are only needed for training.
+
+There are several common transformations that can be applied to GraphDefs
+created to train a model, that help reduce the amount of computation needed when
+the network is used only for inference. These include:
+
+ - Removing training-only operations like checkpoint saving.
+
+ - Stripping out parts of the graph that are never reached.
+
+ - Removing debug operations like CheckNumerics.
+
+ - Folding batch normalization ops into the pre-calculated weights.
+
+ - Fusing common operations into unified versions.
+
+This script takes either a frozen binary GraphDef file (where the weight
+variables have been converted into constants by the freeze_graph script), or a
+text GraphDef proto file (the weight variables are stored in a separate
+checkpoint file), and outputs a new GraphDef with the optimizations applied.
+
+If the input graph is a text graph file, make sure to include the node that
+restores the variable weights in output_names. That node is usually named
+"restore_all".

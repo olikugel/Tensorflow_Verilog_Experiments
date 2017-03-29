@@ -1,0 +1,12 @@
+# update and compile tensorflow
+# note: before doing this, it is a good idea to update bazel first
+
+>> cdtens
+>> git remote update
+>> git pull
+>> git status -uno
+>> bazel build tensorflow/...
+
+# optional: newly configure tensorflow
+>> ./configure [python path: /usr/bin/python3]
+>> bazel build tensorflow/...

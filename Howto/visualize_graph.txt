@@ -1,0 +1,47 @@
+py generate_logfiles.py --graph=$GRAPH_FILE_ORI --logdir=/tmp/graph_logs
+tensorboard --logdir=/tmp/graph_logs --port=6006
+
+go to http://0.0.0.0:6006/
+
+# -------------------------------------------------------------------------------------------
+
+>> cdhdd
+>> cd Uniproject/Scripts;ls
+>> GRAPH_FILE=[PATH TO GRAPH FILE]
+>> python3 generate_logfiles.py --graph=$GRAPH_FILE --logdir=[DIRECTORY FOR LOGFILES]
+>> tensorboard --logdir=[DIRECTORY FOR LOGFILES] --port=[PORT NUMBER E.G. 6006]
+
+# -------------------------------------------------------------------------------------------
+
+INCEP_DIR='/media/visiting/0968dcdd-0d87-49b2-af5b-2ba142d8dcec/Tensorflow/models/inception'
+DATA_DIR='/media/visiting/0968dcdd-0d87-49b2-af5b-2ba142d8dcec/imagenet/tensorflow'
+GRAPH_FILE='/media/visiting/0968dcdd-0d87-49b2-af5b-2ba142d8dcec/Uniproject/Graphs/tensorflow_inception_graph.pb'
+
+cd $INCEP_DIR
+bazel build inception/imagenet_eval
+bazel-bin/inception/imagenet_eval --checkpoint_dir=/tmp/imagenet_train --eval_dir=/tmp/imagenet_eval --data_dir=$DATA_DIR
+tensorboard --logdir=/tmp/imagenet_eval
+
+# -------------------------------------------------------------------------------------------
+
+#From https://github.com/tensorflow/tensorflow/issues/1287
+
+import os
+import os.path
+import tensorflow as tf
+from tensorflow.python.platform import gfile
+
+INCEPTION_LOG_DIR = '/tmp/inception_v3_log'
+
+if not os.path.exists(INCEPTION_LOG_DIR):
+    os.makedirs(INCEPTION_LOG_DIR)
+with tf.Session() as sess:
+    model_filename = '/home/ted/src/tensorflow_image/tensorflow_inception_graph.pb'
+    with gfile.FastGFile(model_filename, 'rb') as f:
+        graph_def = tf.GraphDef()
+        graph_def.ParseFromString(f.read())
+        _ = tf.import_graph_def(graph_def, name='')
+    writer = tf.train.SummaryWriter(INCEPTION_LOG_DIR, graph_def)
+    writer.close()
+
+# -------------------------------------------------------------------------------------------
